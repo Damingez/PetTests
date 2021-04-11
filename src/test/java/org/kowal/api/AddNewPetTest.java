@@ -19,7 +19,7 @@ public class AddNewPetTest {
 
     @Test
     public void addPetTest() {
-        Integer petId = 11;
+        Integer petId = 12;
         given().log().all().header("Content-type", "application/json")
                 .baseUri(Endpoints.baseURI)
                 .body(Payload.provideNewPetRequest(petId))
@@ -38,7 +38,7 @@ public class AddNewPetTest {
     }
 
     @Test
-    public void addPetWithWrongIdTest() {
+    public void addPetWithIncorrectIdTest() {
         String petId = "cow";
         given().log().all().header("Content-type", "application/json")
                 .baseUri(Endpoints.baseURI)
