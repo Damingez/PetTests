@@ -4,8 +4,6 @@ import io.restassured.path.json.JsonPath;
 import org.junit.Assert;
 import org.junit.Test;
 
-import static io.restassured.RestAssured.given;
-
 public class GetPetsTest {
 
     @Test
@@ -13,9 +11,7 @@ public class GetPetsTest {
         String parameterName = "status";
         String statusValue = "available";
 
-        String response = given().log().all()
-                .header("Content-type", "application/json")
-                .baseUri(Config.BASE_URI)
+        String response = Config.getRequestSpecification("Content-type", "application/json")
                 .queryParam(parameterName, statusValue)
                 .when().get(Config.FIND_PETS)
                 .then().assertThat()
@@ -33,9 +29,7 @@ public class GetPetsTest {
         String parameterName = "status";
         String value = "sleepy";
 
-        String response = given().log().all()
-                .header("Content-type", "application/json")
-                .baseUri(Config.BASE_URI)
+        String response = Config.getRequestSpecification("Content-type", "application/json")
                 .queryParam(parameterName, value)
                 .when().get(Config.FIND_PETS)
                 .then().assertThat()
