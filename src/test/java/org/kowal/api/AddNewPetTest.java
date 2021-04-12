@@ -1,10 +1,8 @@
 package org.kowal.api;
 
 
-import io.restassured.RestAssured;
 import io.restassured.path.json.JsonPath;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.kowal.api.payloads.Payload;
 
@@ -12,22 +10,19 @@ import static io.restassured.RestAssured.given;
 
 public class AddNewPetTest {
 
-    @Before
-    public void setBaseURI() {
-        RestAssured.baseURI = "https://petstore.swagger.io/v2";
-    }
-
     @Test
     public void addPetTest() {
+
         Integer petId = 12;
-        given().log().all().header("Content-type", "application/json")
-                .baseUri(Endpoints.baseURI)
+        given().log().all()
+                .header("Content-type", "application/json")
+                .baseUri(Config.BASE_URI)
                 .body(Payload.provideNewPetRequest(petId))
-                .when().post("/pet")
+                .when().post(Config.ACTIONS_ON_PET)
                 .then().log().all().assertThat().statusCode(200);
 
         String response = given().log().all()
-                .baseUri(Endpoints.baseURI)
+                .baseUri(Config.BASE_URI)
                 .header("Content-type", "application/json")
                 .when().get("/pet/" + petId)
                 .then().assertThat().statusCode(200).extract().response().asString();
@@ -41,9 +36,9 @@ public class AddNewPetTest {
     public void addPetWithIncorrectIdTest() {
         String petId = "cow";
         given().log().all().header("Content-type", "application/json")
-                .baseUri(Endpoints.baseURI)
+                .baseUri(Config.BASE_URI)
                 .body(Payload.provideBadNewPetRequest(petId))
-                .when().post("/pet")
+                .when().post(Config.ACTIONS_ON_PET)
                 .then().log().all().assertThat().statusCode(400);
 
     }
